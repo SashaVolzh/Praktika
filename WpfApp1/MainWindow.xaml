@@ -1,0 +1,22 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="200" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="label1" Content="Договора" HorizontalAlignment="Left" Height="27" Margin="3,10,0,0" VerticalAlignment="Top" Width="83" Grid.Column="1" />
+        <ComboBox x:Name="Drafts" HorizontalAlignment="Left" Height="21" Margin="3,42,0,0" VerticalAlignment="Top" Width="780" IsEditable="True" Grid.Column="1"/>
+        <Label x:Name="label2" Content="Файлы" HorizontalAlignment="Left" Height="27" Margin="3,68,0,0" VerticalAlignment="Top" Width="83" Grid.Column="1" />
+        <Button Content="Добавить файлы" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="575,72,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.317,0.35" />
+        <Button Content="Сохранить все" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="680,72,0,0" VerticalAlignment="Top" Width="92" />
+        <ListBox x:Name="Files" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="6,100,0,10" Width="774" d:ItemsSource="{d:SampleData ItemCount=1}"/>
+
+    </Grid>
+</Window>
