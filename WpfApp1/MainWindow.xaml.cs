@@ -29,6 +29,10 @@ namespace WpfApp1
             Drafts.SelectionChanged += SetupFiles;
             AddFiles.Click += AddFile;
             DownloadFiles.Click += ViewModel.Classes.WorkWithFiles.DownloadOnPC;
+            Files.MouseRightButtonDown += OpenContexMenu;
+            SaveItem.Click += SaveFile;
+            DeleteItem.Click += DeleteFile;
+            SaveDB.Click += SaveIntoDB;
         }
 
         private void SetupFiles(object sender, RoutedEventArgs e)
@@ -40,5 +44,28 @@ namespace WpfApp1
         {
             ViewModel.Classes.WorkWithFiles.AddFile(sender, e, Files);
         }
+        private void OpenContexMenu(object sender, RoutedEventArgs e)
+        {
+            if (Files.SelectedItem == null) return;
+            ContextMenu contextMenu = Files.ContextMenu;
+            if (contextMenu != null)
+            {
+                contextMenu.PlacementTarget = Files;
+                contextMenu.IsOpen = true;
+            }
+        }
+        private void SaveIntoDB(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Classes.WorkWithDB.SaveIntoDB(sender, e, Drafts);
+        }
+        private void SaveFile(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Classes.WorkWithFiles.SaveFile(sender, e, Files);
+        }
+        private void DeleteFile(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Classes.WorkWithFiles.DeleteFile(sender, e, Files);
+        }
+
     }
 }

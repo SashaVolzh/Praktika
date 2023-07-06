@@ -14,5 +14,11 @@ namespace WpfApp1.ViewModel.Interfaces
 
         static void AddFile(object sender, RoutedEventArgs e)
         { }
+
+        static void SaveFile(object sender, RoutedEventArgs e)
+        { }
+
+        static void DeleteFile(object sender, RoutedEventArgs e)
+        { }
     }
 }

@@ -16,7 +16,7 @@ namespace WpfApp1.ViewModel.Classes
 
         static public IDbConnection CreateConnection()
         {
-            string connectionString = "Data Source=DESKTOP-BED4UI8\\SQLEXPRESS;Initial Catalog=DB_Prakt;TrustServerCertificate=true;Integrated Security=true";
+            string connectionString = "Data Source=DESKTOP-CU79IVQ\\SQLEXPRESS;Initial Catalog=DB_Prakt;TrustServerCertificate=true;Integrated Security=true";
             ConnectionName = new SqlConnection(connectionString);
             ConnectionName.Open();
             return ConnectionName;

@@ -51,5 +51,25 @@ namespace WpfApp1.ViewModel.Classes
             Process.Start("explorer.exe", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
            "\\Downloads");
         }
+
+        static public void SaveFile(object sender, RoutedEventArgs e, ListBox listBox)
+        {
+            if (DownloadsFiles.listOfFiles.IsNullOrEmpty()) { return; }
+            Models.File item = DownloadsFiles.listOfFiles.ElementAt(listBox.SelectedIndex);
+            var data_document = item.FileData;
+            string downloadFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads";
+            string filePath = Path.Combine(downloadFolder, item.FileName);
+            File.Create(filePath).Close();
+            File.WriteAllBytes(filePath, data_document);
+            Process.Start("explorer.exe", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
+           "\\Downloads");
+        }
+
+        static public void DeleteFile(object sender, RoutedEventArgs e, ListBox listBox)
+        {
+            if (DownloadsFiles.listOfFiles.IsNullOrEmpty()) { return; }
+            DownloadsFiles.listOfFiles.RemoveAt(listBox.SelectedIndex);
+            listBox.Items.RemoveAt(listBox.SelectedIndex);
+        }
     }
 }

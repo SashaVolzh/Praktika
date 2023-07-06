@@ -5,18 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="800">
+        Title="MainWindow" Height="275" Width="700">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="label1" Content="Договора" HorizontalAlignment="Left" Height="27" Margin="3,10,0,0" VerticalAlignment="Top" Width="83" Grid.Column="1" />
-        <ComboBox x:Name="Drafts" HorizontalAlignment="Left" Height="21" Margin="3,42,0,0" VerticalAlignment="Top" Width="780" IsEditable="True" Grid.Column="1"/>
+        <Label x:Name="label1" Content="Договоры" HorizontalAlignment="Left" Height="27" Margin="3,10,0,0" VerticalAlignment="Top" Width="83" Grid.Column="1" />
+        <ComboBox x:Name="Drafts" HorizontalAlignment="Left" Height="21" Margin="3,42,0,0" VerticalAlignment="Top" Width="672" IsEditable="True" Grid.Column="1"/>
         <Label x:Name="label2" Content="Файлы" HorizontalAlignment="Left" Height="27" Margin="3,68,0,0" VerticalAlignment="Top" Width="83" Grid.Column="1" />
-        <Button x:Name="AddFiles" Content="Добавить файлы" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="575,72,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.317,0.35" />
-        <Button x:Name="DownloadFiles" Content="Сохранить все" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="680,72,0,0" VerticalAlignment="Top" Width="92" />
-        <ListBox x:Name="Files" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="6,100,0,10" Width="774" d:ItemsSource="{d:SampleData ItemCount=1}"/>
+        <Button x:Name="AddFiles" Content="Добавить файлы" Grid.ColumnSpan="2" Height="24" Margin="440,70,142,0" VerticalAlignment="Top" RenderTransformOrigin="0.317,0.35" />
+        <Button x:Name="DownloadFiles" Content="Сохранить все" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="24" Margin="573,70,0,0" VerticalAlignment="Top" Width="102" RenderTransformOrigin="0.446,0.41" />
+        <ListBox x:Name="Files" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="6,100,0,58" Width="669" d:ItemsSource="{d:SampleData ItemCount=1}">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="SaveItem" Header="Сохранить" />
+                    <MenuItem Name="DeleteItem"  Header="Удалить"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+        <Button Name="SaveDB"  Content="Сохранить в БД" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="544,206,0,0" VerticalAlignment="Top" Height="28" Width="131"/>
 
     </Grid>
 </Window>
