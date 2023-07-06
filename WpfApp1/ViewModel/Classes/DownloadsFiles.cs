@@ -13,16 +13,18 @@ namespace WpfApp1.ViewModel.Classes
 {
     internal class DownloadsFiles : IDownloadsFiles
     {
+        static public List<File> listOfFiles { get; set; }
         static public void SetupFiles(object? sender, EventArgs e, ListBox listBox)
         {
-           listBox.Items.Clear();
+            if(listOfFiles is not null) listOfFiles.Clear();
+            listBox.Items.Clear();
             ComboBox comboBox = (ComboBox)sender;
             var db=Connection.CreateConnection();
-           var list=db.Query<File>("SELECT dbo.EstimateFiles.* FROM dbo.ContractDraft2File " +
+            listOfFiles = db.Query<File>("SELECT dbo.EstimateFiles.* FROM dbo.ContractDraft2File " +
                     "Join dbo.EstimateFiles ON dbo.ContractDraft2File.FileID=dbo.EstimateFiles.ID " +
                     "Join dbo.ContractDraft On dbo.ContractDraft.DraftID=dbo.ContractDraft2File.DraftID Where ContractName=@Name", new { Name = comboBox?.SelectedValue }).ToList();
             db.DropConnection();
-            foreach (File item in list)
+            foreach (File item in listOfFiles)
             {
                 listBox.Items.Add(item.FileName);
             }

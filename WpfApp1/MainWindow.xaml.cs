@@ -27,11 +27,18 @@ namespace WpfApp1
 
             Drafts.Loaded += ViewModel.Classes.DownloadsDraft.SetupDrafts;
             Drafts.SelectionChanged += SetupFiles;
+            AddFiles.Click += AddFile;
+            DownloadFiles.Click += ViewModel.Classes.WorkWithFiles.DownloadOnPC;
         }
 
         private void SetupFiles(object sender, RoutedEventArgs e)
         {
             ViewModel.Classes.DownloadsFiles.SetupFiles(sender, e, Files);
+        }
+
+        private void AddFile(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Classes.WorkWithFiles.AddFile(sender, e, Files);
         }
     }
 }
