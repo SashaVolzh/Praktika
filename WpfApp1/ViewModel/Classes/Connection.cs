@@ -1,35 +1,27 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Intrinsics.Arm;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+namespace WpfApp1.ViewModel.Classes;
 
-namespace WpfApp1.ViewModel.Classes
+static internal class Connection
 {
-    static internal class Connection
+    public static IDbConnection? ConnectionName { get; private set; } = default;
+
+    // Подключение к БД. Возвращает connection 
+    static public IDbConnection CreateConnection()
     {
-        public static IDbConnection? ConnectionName { get; private set; } = default;
+        string connectionString = "Data Source=DESKTOP-BED4UI8\\SQLEXPRESS;Initial Catalog=DB_Prakt;TrustServerCertificate=true;Integrated Security=true";
+        ConnectionName = new SqlConnection(connectionString);
+        ConnectionName.Open();
+        return ConnectionName;
+    }
 
-        static public IDbConnection CreateConnection()
+    // Отключение от БД
+    static public void DropConnection(this IDbConnection db)
+    {
+        ConnectionName = db;
+        if (db != null) 
         {
-            string connectionString = "Data Source=DESKTOP-BED4UI8\\SQLEXPRESS;Initial Catalog=DB_Prakt;TrustServerCertificate=true;Integrated Security=true";
-            ConnectionName = new SqlConnection(connectionString);
-            ConnectionName.Open();
-            return ConnectionName;
-        }
-
-        static public void DropConnection(this IDbConnection db)
-        {
-            ConnectionName = db;
-            if (db != null) 
-            {
-                db.Close();
-                db.Dispose();
-            }
+            db.Close();
+            db.Dispose();
         }
     }
 }
