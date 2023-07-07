@@ -5,7 +5,7 @@ internal class WorkWithDB : IWorkWithDB
 {
 
     //Сохранение в БД
-     static public void SaveIntoDB(object sender, RoutedEventArgs e, ComboBox comboBox)
+     static public void SaveIntoDB(object sender, RoutedEventArgs e, ComboBox comboBox, ListBox listbox)
     {
         if (comboBox.Text == "") return;
 
@@ -24,10 +24,15 @@ internal class WorkWithDB : IWorkWithDB
                 int index = DownloadsFiles.listOfFiles.FindIndex(x => x.FileName.Equals(DBFiles[i].FileName));
                 if(!DownloadsFiles.listOfFiles[index].FileData.ByteEquals(DBFiles[i].FileData))
                 {
-                    string sqlSend = "Update dbo.EstimateFiles Set FileData=@FileData, FileSize=@FileSize, UploadedBy=@UploadedBy, UploadedAt=@UploadedAt Where ID=@ID";
-                    db.Execute(sqlSend, new { FileData = DownloadsFiles.listOfFiles[index].FileData, FileSize = DownloadsFiles.listOfFiles[index].FileSize, UploadedBy = DownloadsFiles.listOfFiles[index].UploadedBy, UploadedAt = DownloadsFiles.listOfFiles[index].UploadedAt, ID = DBFiles[i].ID });
-                    sqlSend = "Insert Into dbo.History Values (default, @ChangeDate, @ChangeType, @ChangeBy, @DraftId)";
-                    db.Execute(sqlSend, new {ChangeDate = DateTime.Now, ChangeType = Status.Обновление.ToString(), ChangeBy = "Лыганов Алексей", DraftId = draftId });
+                    string sqlSend = "Insert Into dbo.EstimateFiles (FileSize, FileName, FileExtension, FileData, ID, UploadedBy, UploadedAt) VALUES (@FileSize, @FileName, @FileExtension, @FileData, default, @UploadedBy, @UploadedAt)";
+                    db.Execute(sqlSend, new { FileSize = DownloadsFiles.listOfFiles[index].FileSize, FileName = DownloadsFiles.listOfFiles[index].FileName, FileExtension= DownloadsFiles.listOfFiles[index].FileExtension, FileData = DownloadsFiles.listOfFiles[index].FileData, UploadedBy = DownloadsFiles.listOfFiles[index].UploadedBy, UploadedAt = DownloadsFiles.listOfFiles[index].UploadedAt});
+                    var fileId = db.Query<Guid>("SELECT Top(1) ID from dbo.EstimateFiles Where FileName=@FileName Order By UploadedAt DESC", new { FileName = DownloadsFiles.listOfFiles[index].FileName }).ToList();
+                    sqlSend = "Insert into dbo.ContractDraft2File (DraftID, FileID) VALUES (@DraftID, @FileID)";
+                    db.Execute(sqlSend, new { DraftID = draftId, FileID = fileId });
+                    sqlSend = "Delete From dbo.ContractDraft2File WHERE DraftID=@DraftID and FileID= @FileID";
+                    db.Execute(sqlSend, new { DraftID = draftId, FileID = DBFiles[i].ID });
+                    sqlSend = "Insert Into dbo.History Values (default, @ChangeDate, @ChangeType, @ChangeBy, @DraftId, @OldFileID, @NewFileID)";
+                    db.Execute(sqlSend, new {ChangeDate = DateTime.Now, ChangeType = Status.Обновление.ToString(), ChangeBy = "Лыганов Алексей", DraftId = draftId, OldFileID = DBFiles[i].ID, NewFileID = fileId });
                     
                 }
                 DBFiles.RemoveAt(i);
@@ -40,8 +45,8 @@ internal class WorkWithDB : IWorkWithDB
         {
             string sqlSend = "DELETE FROM dbo.ContractDraft2File WHERE FileID=@FileID";
             db.Execute( sqlSend, new { FileID = file.ID });
-            sqlSend = "Insert Into dbo.History (HistoryId, ChangeDate, ChangeType, ChangeBy, DraftId) Values (default, @ChangeDate, @ChangeType, @ChangeBy, @DraftId)";
-            db.Execute(sqlSend, new { ChangeDate = DateTime.Now, ChangeType = Status.Удаление.ToString(), ChangeBy = "Лыганов Алексей", DraftId = draftId });
+            sqlSend = "Insert Into dbo.History (HistoryId, ChangeDate, ChangeType, ChangeBy, DraftId, OldFileID) Values (default, @ChangeDate, @ChangeType, @ChangeBy, @DraftId, @OldFileID)";
+            db.Execute(sqlSend, new { ChangeDate = DateTime.Now, ChangeType = Status.Удаление.ToString(), ChangeBy = "Лыганов Алексей", DraftId = draftId, OldFileID= file.ID });
         }
         //Цикл по добавлению файла в БД
         foreach (var file in DownloadsFiles.listOfFiles)
@@ -51,9 +56,10 @@ internal class WorkWithDB : IWorkWithDB
             var fileId = db.Query<Guid>("SELECT ID from dbo.EstimateFiles Where FileName=@FileName", new { FileName = file.FileName }).ToList().Last();
             sqlSend = "Insert into dbo.ContractDraft2File (DraftID, FileID) VALUES (@DraftID, @FileID)";
             db.Execute(sqlSend, new { DraftID = draftId, FileID = fileId});
-            sqlSend = "Insert Into dbo.History (HistoryId, ChangeDate, ChangeType, ChangeBy, DraftId) Values (default, @ChangeDate, @ChangeType, @ChangeBy, @DraftId)";
-            db.Execute(sqlSend, new { ChangeDate = DateTime.Now, ChangeType = Status.Добавление.ToString(), ChangeBy = "Лыганов Алексей", DraftId = draftId });
+            sqlSend = "Insert Into dbo.History (HistoryId, ChangeDate, ChangeType, ChangeBy, DraftId, NewFileID) Values (default, @ChangeDate, @ChangeType, @ChangeBy, @DraftId, @NewFileID)";
+            db.Execute(sqlSend, new { ChangeDate = DateTime.Now, ChangeType = Status.Добавление.ToString(), ChangeBy = "Лыганов Алексей", DraftId = draftId, NewFileID=fileId });
         }
+        DownloadsFiles.SetupFiles(comboBox, e, listbox);
         db.DropConnection();
     }
 }

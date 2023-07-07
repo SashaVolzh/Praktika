@@ -11,9 +11,4 @@ internal class File
     public object ID { get; set; }
     public string UploadedBy { get; set; }
     public DateTime UploadedAt { get; set;}
-
-    internal static byte[] ReadAllBytes(string selectedFilePath)
-    {
-        throw new NotImplementedException();
-    }
 }

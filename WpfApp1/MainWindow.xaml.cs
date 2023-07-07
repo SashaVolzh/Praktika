@@ -42,7 +42,7 @@ public partial class MainWindow : Window
     }
     private void SaveIntoDB(object sender, RoutedEventArgs e)
     {
-        ViewModel.Classes.WorkWithDB.SaveIntoDB(sender, e, Drafts);
+        ViewModel.Classes.WorkWithDB.SaveIntoDB(sender, e, Drafts, Files);
     }
     private void SaveFile(object sender, RoutedEventArgs e)
     {
