@@ -87,7 +87,7 @@ internal class WorkWithDB : IWorkWithDB
             {
                 string sqlSend = "Insert into dbo.EstimateFiles (FileSize, FileName, FileExtension, FileData, ID, UploadedBy, UploadedAt) VALUES (@FileSize, @FileName, @FileExtension, @FileData, default, @UploadedBy, @UploadedAt)";
                 db.Execute(sqlSend, new { FileSize = file.FileSize, FileName = file.FileName, FileExtension = file.FileExtension, FileData = file.FileData, UploadedBy = "Лыганов Алексей", UploadedAt = file.UploadedAt });
-                var fileId = db.Query<Guid>("SELECT ID from dbo.EstimateFiles Where FileName=@FileName", new { FileName = file.FileName }).ToList().Last();
+                var fileId = db.Query<Guid>("SELECT ID from dbo.EstimateFiles Where FileName=@FileName", new { FileName = file.FileName }).Last();
                 sqlSend = "Insert into dbo.ContractDraft2File (DraftID, FileID) VALUES (@DraftID, @FileID)";
                 db.Execute(sqlSend, new { DraftID = draftId, FileID = fileId });
                 sqlSend = "Insert Into dbo.History (HistoryId, ChangeDate, ChangeType, ChangeBy, DraftId, NewFileID) Values (default, @ChangeDate, @ChangeType, @ChangeBy, @DraftId, @NewFileID)";
