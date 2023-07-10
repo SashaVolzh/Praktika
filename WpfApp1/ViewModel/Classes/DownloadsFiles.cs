@@ -4,11 +4,13 @@ namespace WpfApp1.ViewModel.Classes;
 
 internal class DownloadsFiles : IDownloadsFiles
 {
-
-    //Хранит список файлов в форме
+    /// <summary>
+    /// Хранит список файлов в форме
+    /// </summary>
     static public List<Models.File> listOfFiles { get; set; }= new List<Models.File>();
-
-    //Подгружает файлы в форму
+    /// <summary>
+    /// Подгружает файлы в форму
+    /// </summary>
     static public void SetupFiles(object? sender, EventArgs e, ListBox listBox)
     {
         if(listOfFiles is not null) listOfFiles.Clear();

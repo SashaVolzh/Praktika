@@ -3,7 +3,9 @@ namespace WpfApp1.ViewModel.Classes;
 
 internal class DownloadsDraft : IDownloadsDraft
 {
-    // Подгружает договоры в форму 
+    /// <summary>
+    /// Подгружает договоры в форму
+    /// </summary>
     static public void SetupDrafts(object? sender, EventArgs e)
     {
         if (sender is  ComboBox comboBox) 

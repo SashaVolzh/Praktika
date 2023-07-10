@@ -32,7 +32,7 @@ public partial class MainWindow : Window
     }
     private void OpenContexMenu(object sender, RoutedEventArgs e)
     {
-        if (Files.SelectedItem == null) return;
+        if (Files.SelectedIndex == -1) return;
         ContextMenu contextMenu = Files.ContextMenu;
         if (contextMenu != null)
         {

@@ -3,7 +3,9 @@ namespace WpfApp1.ViewModel.Classes;
 
 static class ExtendedClasses
 {
-    //Расширение на тип byte[]. Сравнение массивов
+    /// <summary>
+    /// Расширение на тип byte[]. Сравнение массивов
+    /// </summary>
     static public bool ByteEquals(this byte[] current, byte[]? other)
     {
         if (other == null || current.Length != other.Length) return false;

@@ -4,8 +4,9 @@ namespace WpfApp1.ViewModel.Classes;
 static internal class Connection
 {
     public static IDbConnection? ConnectionName { get; private set; } = default;
-
-    // Подключение к БД. Возвращает connection 
+    /// <summary>
+    /// Подключение к БД. Возвращает connection 
+    /// </summary>
     static public IDbConnection CreateConnection()
     {
         string connectionString = "Data Source=DESKTOP-CU79IVQ\\SQLEXPRESS;Initial Catalog=DB_Prakt;TrustServerCertificate=true;Integrated Security=true";
@@ -13,8 +14,9 @@ static internal class Connection
         ConnectionName.Open();
         return ConnectionName;
     }
-
-    // Отключение от БД
+    /// <summary>
+    /// Отключение от БД
+    /// </summary>
     static public void DropConnection(this IDbConnection db)
     {
         ConnectionName = db;

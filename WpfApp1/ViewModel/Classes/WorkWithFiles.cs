@@ -4,8 +4,9 @@ namespace WpfApp1.ViewModel.Classes;
 
 class WorkWithFiles : IWorkWithFiles
 {
-
-    //Добавление файла в форму из ПК
+    /// <summary>
+    /// Добавление файла в форму из ПК
+    /// </summary>
     static public void AddFile(object sender, RoutedEventArgs e, ListBox space, ComboBox comboBox)
     {
         if (comboBox.SelectedIndex == -1) return;
@@ -26,8 +27,9 @@ class WorkWithFiles : IWorkWithFiles
             space.Items.Add(file.FileName);
         }
     }
-
-    //Скачивание всех файлов из формы на ПК
+    /// <summary>
+    /// Скачивание всех файлов из формы на ПК
+    /// </summary>
     static public void DownloadOnPC(object sender, RoutedEventArgs e)
     {
         if (DownloadsFiles.listOfFiles.IsNullOrEmpty()) { return; }
@@ -43,8 +45,9 @@ class WorkWithFiles : IWorkWithFiles
         Process.Start("explorer.exe", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
        "\\Downloads");
     }
-
-    // Сохранение одного файла на ПК
+    /// <summary>
+    /// Сохранение одного файла на ПК
+    /// </summary>
     static public void SaveFile(object sender, RoutedEventArgs e, ListBox listBox,ComboBox comboBox)
     {
         if (DownloadsFiles.listOfFiles.IsNullOrEmpty() || comboBox.SelectedIndex==-1) { return; }
@@ -57,8 +60,9 @@ class WorkWithFiles : IWorkWithFiles
         Process.Start("explorer.exe", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) +
        "\\Downloads");
     }
-
-    // Удаление одного файла из формы
+    /// <summary>
+    /// Удаление одного файла из формы
+    /// </summary>
     static public void DeleteFile(object sender, RoutedEventArgs e, ListBox listBox, ComboBox comboBox)
     {
         if (DownloadsFiles.listOfFiles.IsNullOrEmpty() || comboBox.SelectedIndex == -1) { return; }

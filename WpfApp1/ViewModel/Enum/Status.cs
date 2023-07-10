@@ -4,7 +4,7 @@ namespace WpfApp1.ViewModel.Enum;
 
 public enum Status
     {
-	Добавление, 
-	Удаление, 
-	Обновление
+	Insert, 
+	Delete, 
+	Update
 } 
