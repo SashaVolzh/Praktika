@@ -11,9 +11,11 @@ internal class DownloadsDraft : IDownloadsDraft
         if (sender is  ComboBox comboBox) 
         {
             comboBox.Items.Clear();
-            var db=Connection.CreateConnection();
-            var list=db.Query<Draft>("SELECT * FROM dbo.ContractDraft").ToList();
-            db.DropConnection();
+            List<Draft> list;
+            using (var db = Connection.CreateConnection())
+            {
+                list = db.Query<Draft>("SELECT * FROM dbo.ContractDraft").ToList();
+            }
             foreach (Draft item in list)
             {
                 comboBox.Items.Add(item.ContractName);

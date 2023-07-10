@@ -24,8 +24,10 @@ internal class WorkWithDB : IWorkWithDB
             draftId = db.Query<Guid>("SELECT DraftID FROM dbo.ContractDraft Where ContractName=@Name", new { Name = comboBox?.SelectedValue }).Last();
         }
         UpdateRecords(DBFiles, DownloadsFiles.listOfFiles, draftId);
-        DeleteRecords(DBFiles, draftId);
-        InsertRecords(DownloadsFiles.listOfFiles, draftId);
+        if (DBFiles.Count != 0)
+            DeleteRecords(DBFiles, draftId);
+        if (DownloadsFiles.listOfFiles.Count != 0)
+            InsertRecords(DownloadsFiles.listOfFiles, draftId);
         DownloadsFiles.SetupFiles(comboBox, e, listbox);
     }
     /// <summary>
